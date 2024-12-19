@@ -1,5 +1,9 @@
 # Rate-limiter
 
+A rate limiter is a technique that limits the number of requests that can be made to a specific endpoint or service within a given time period. Rate limiters are used to prevent abuse, resource starvation, and malicious attacks
+
+In this repo, I have implement Token bucket rate limiter, per clint rate limiter and I also implemeted rate limiter using a third party lib. user jounrey for token is here for example:
+
 
 1. **Run the application:**
 

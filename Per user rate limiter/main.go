@@ -49,7 +49,7 @@ func perClientRateLimiter(next func(writer http.ResponseWriter, request *http.Re
 		// Lock the mutex to protect this section from race conditions.
 		mu.Lock()
 		if _, found := clients[ip]; !found {
-			clients[ip] = &client{limiter: rate.NewLimiter(2, 4)}
+			clients[ip] = &client{limiter: rate.NewLimiter(2, 5)}
 		}
 		clients[ip].lastSeen = time.Now()
 		if !clients[ip].limiter.Allow() {
@@ -57,7 +57,7 @@ func perClientRateLimiter(next func(writer http.ResponseWriter, request *http.Re
 
 			message := Message{
 				Status: "Request Failed",
-				Body:   "The API is at capacity, try again later.",
+				Body:   "I ain't coming into your DDOS attack you filthy animal!",
 			}
 
 			w.WriteHeader(http.StatusTooManyRequests)
@@ -74,7 +74,7 @@ func endpointHandler(writer http.ResponseWriter, request *http.Request) {
 	writer.WriteHeader(http.StatusOK)
 	message := Message{
 		Status: "Successful",
-		Body:   "Hi! You've reached the API. How may I help you?",
+		Body:   "Hello World",
 	}
 	err := json.NewEncoder(writer).Encode(&message)
 	if err != nil {
@@ -84,8 +84,8 @@ func endpointHandler(writer http.ResponseWriter, request *http.Request) {
 
 func main() {
 	http.Handle("/api", perClientRateLimiter(endpointHandler))
-	err := http.ListenAndServe(":7777", nil)
+	err := http.ListenAndServe(":6666", nil)
 	if err != nil {
-		log.Println("There was an error listening on port :8080", err)
+		log.Println("There was an error listening on port :6666", err)
 	}
 }

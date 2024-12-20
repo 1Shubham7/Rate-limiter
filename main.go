@@ -4,18 +4,17 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	
 )
 
-type Message struct{
+type Message struct {
 	Status string `json:"status"`
-	Body string `json:"body"`
+	Body   string `json:"body"`
 }
 
-func endpointHandler(writer http.ResponseWriter, request *http.Request){
+func endpointHandler(writer http.ResponseWriter, request *http.Request) {
 	message := &Message{
 		Status: "200",
-		Body: "Hello World",
+		Body:   "Hello World",
 	}
 	writer.Header().Set("Content-Type", "application/json")
 	writer.WriteHeader(200)
@@ -26,7 +25,7 @@ func endpointHandler(writer http.ResponseWriter, request *http.Request){
 	}
 }
 
-func main(){
+func main() {
 	fmt.Println("Server with Token Bucket Rate Limiter running on port 6666")
 	http.Handle("/api", RateLimiter(endpointHandler))
 	err := http.ListenAndServe(":6666", nil)
